@@ -1,7 +1,7 @@
 const question = document.getElementById('question')
 const choices = Array.from(document.getElementsByClassName('choice-text'))
 
-const MAX_QUESTIONS = 2;
+const MAX_QUESTIONS = 3;
 
 let currentQuestion = {};
 let score = 0;
@@ -71,7 +71,15 @@ choices.forEach((choice) => {
     if (!acceptingAnswers) return;
 
     acceptingAnswers = false
-    getNewQuestion();
+    //display correct/incorrect answer
+    const selectedAnswer = e.target.dataset["number"]
+    const addChoiceClass = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect"
+
+    e.target.parentElement.classList.add(addChoiceClass)
+    setTimeout(() => {
+      e.target.parentElement.classList.remove(addChoiceClass)
+      getNewQuestion();
+    }, 1000)
   })
 })
 
