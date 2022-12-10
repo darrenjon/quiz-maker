@@ -49,6 +49,7 @@ startQuiz = () => {
 
 getNewQuestion = () => {
   if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    localStorage.setItem("recentScore", score)
     //go to the result page
     return window.location.assign("/result.html")
   }
