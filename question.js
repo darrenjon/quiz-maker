@@ -1,7 +1,10 @@
 const question = document.getElementById('question')
 const choices = Array.from(document.getElementsByClassName('choice-text'))
+const questionCounterText = document.getElementById('questionCounter')
+const scoreText = document.getElementById("score")
 
 const MAX_QUESTIONS = 3;
+const CORRECT_BONUS = 10;
 
 let currentQuestion = {};
 let score = 0;
@@ -64,6 +67,9 @@ getNewQuestion = () => {
   // remove question that already used
   availableQuestions.splice(questionIndex, 1)
   acceptingAnswers = true
+
+  // show question progress
+  questionCounterText.innerText = `${questionCounter}/${MAX_QUESTIONS}`
 }
 
 choices.forEach((choice) => {
@@ -75,6 +81,10 @@ choices.forEach((choice) => {
     const selectedAnswer = e.target.dataset["number"]
     const addChoiceClass = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect"
 
+    if (addChoiceClass === "correct") {
+      incrementScore(CORRECT_BONUS)
+    }
+
     e.target.parentElement.classList.add(addChoiceClass)
     setTimeout(() => {
       e.target.parentElement.classList.remove(addChoiceClass)
@@ -82,5 +92,10 @@ choices.forEach((choice) => {
     }, 1000)
   })
 })
+
+incrementScore = num => {
+  score += num;
+  scoreText.innerText = score;
+}
 
 startQuiz();
